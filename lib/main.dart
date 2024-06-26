@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:uas_ambw/Page/registerPin.dart';
 import 'package:uas_ambw/note.dart';
 import 'package:uas_ambw/noteAdapter.dart';
 import 'package:uas_ambw/pin.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         valueListenable: Hive.box<Pin>('pin').listenable(),
         builder: (context, Box<Pin> box, _) {
           if (box.isEmpty) {
-            return PinPage();
+            return RegisterPin();
           } else {
             return PinPage();
           }

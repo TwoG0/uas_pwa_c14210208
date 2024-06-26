@@ -1,53 +1,30 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:uas_ambw/Page/registerPin.dart';
+import 'package:uas_ambw/main.dart';
 import 'package:uas_ambw/pin.dart';
-import 'package:uas_ambw/Page/homePage.dart';
+import 'package:uas_ambw/Page/pinPage.dart';
 
-class PinPage extends StatefulWidget {
+class RegisterPin extends StatefulWidget {
   @override
-  _PinPageState createState() => _PinPageState();
+  _RegisterPinState createState() => _RegisterPinState();
 }
 
-class _PinPageState extends State<PinPage> {
+class _RegisterPinState extends State<RegisterPin> {
   final TextEditingController _pinController = TextEditingController();
   List<String> newPin = [];
 
-  Future<void> _checkPin() async {
+  Future<void> _savePin() async {
     final pinBox = await Hive.openBox<Pin>('pin');
-
-    if (newPin.length == 4) {
-      final enteredPin = _pinController.text;
-
+    if (pinBox != null && newPin.length == 4) {
       if (pinBox.isEmpty) {
-        // Jika pinBox kosong, tambahkan PIN baru
-        pinBox.add(Pin(pin: enteredPin));
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+        pinBox.add(Pin(pin: _pinController.text));
       } else {
-        // Jika pinBox tidak kosong, bandingkan dengan PIN yang tersimpan
-        final savedPin = pinBox.getAt(0)!.pin;
-
-        if (enteredPin == savedPin) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
-        } else {
-          // Jika PIN yang dimasukkan salah, beritahu pengguna dan kosongkan newPin
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Incorrect PIN')),
-          );
-          setState(() {
-            newPin.clear();
-            _pinController.clear();
-          });
-        }
+        pinBox.putAt(0, Pin(pin: _pinController.text));
       }
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyApp()),
+      );
     }
   }
 
@@ -57,7 +34,7 @@ class _PinPageState extends State<PinPage> {
         newPin.add(number);
         _pinController.text = newPin.join();
         if (newPin.length == 4) {
-          _checkPin();
+          _savePin();
         }
       }
     });
@@ -83,7 +60,7 @@ class _PinPageState extends State<PinPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Enter PIN')),
+      appBar: AppBar(title: Text('Register New Pin')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -139,7 +116,7 @@ class _PinPageState extends State<PinPage> {
                   );
                 } else if (index == 10) {
                   return ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (newPin.length < 4) {
                         _updatePin('0');
                       }
@@ -150,7 +127,7 @@ class _PinPageState extends State<PinPage> {
                   int number = index + 1;
                   if (number == 10) number = 0;
                   return ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (newPin.length < 4) {
                         _updatePin(number.toString());
                       }
@@ -160,15 +137,6 @@ class _PinPageState extends State<PinPage> {
                 }
               }),
             ),
-            SizedBox(height: 30,),
-            ElevatedButton(
-                onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RegisterPin()),
-                      )
-                    },
-                child: Text("Lupa Password"))
           ],
         ),
       ),

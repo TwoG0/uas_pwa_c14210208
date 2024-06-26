@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:uas_ambw/pin.dart';
+import 'package:uas_ambw/Page/registerPin.dart';
+import 'package:uas_ambw/Theme/lightMode.dart';
 
 class SettingsPage extends StatelessWidget {
   final TextEditingController _pinController = TextEditingController();
@@ -13,21 +13,30 @@ class SettingsPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: _pinController,
-              decoration: InputDecoration(labelText: 'New PIN'),
-              obscureText: true,
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                final pinBox = Hive.box<Pin>('pin');
-                pinBox.putAt(0, Pin(pin: _pinController.text));
-                Navigator.pop(context);
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterPin()),
+                );
               },
-              child: Text('Change PIN'),
-            ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.lock_open_outlined,
+                  ),
+                  SizedBox(width: 30.0),
+                  Text(
+                    'Change New Pin',
+                    style: TextStyle(
+                      color: getFontColor(),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 17,
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

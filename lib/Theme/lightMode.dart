@@ -34,3 +34,11 @@ Color getHintColor(){
     return Color.fromARGB(255, 149, 149, 149);
   }
 }
+
+Color getFloatColor(){
+  if (isLightMode) {
+    return Colors.blue.shade200;
+  }else{
+    return Colors.blue.shade900;
+  }
+}

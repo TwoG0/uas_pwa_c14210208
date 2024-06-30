@@ -81,6 +81,11 @@ class _PinPageState extends State<PinPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    double iconSize = screenWidth * 0.1;
+    double buttonFontSize = screenWidth * 0.08;
     return Scaffold(
       backgroundColor: getBackgroundColor(),
       appBar: AppBar(
@@ -90,132 +95,136 @@ class _PinPageState extends State<PinPage> {
         ),
         backgroundColor: getBackgroundColor(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.circle,
-                  color: getPinColor(newPin, 1),
-                  size: 50,
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Icon(
-                  Icons.circle,
-                  color: getPinColor(newPin, 2),
-                  size: 50,
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Icon(
-                  Icons.circle,
-                  color: getPinColor(newPin, 3),
-                  size: 50,
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Icon(
-                  Icons.circle,
-                  color: getPinColor(newPin, 4),
-                  size: 50,
-                ),
-              ],
-            ),
-            SizedBox(height: 40),
-            GridView.count(
-              crossAxisCount: 3,
-              crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
-              shrinkWrap: true,
-              children: List.generate(11, (index) {
-                if (index == 9) {
-                  return ElevatedButton(
-                    onPressed: _removeLastDigit,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      foregroundColor: getFontColor(),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
-                      ),
-                    ),
-                    child: Icon(Icons.backspace),
-                  );
-                } else if (index == 10) {
-                  return ElevatedButton(
-                    onPressed: () async {
-                      if (newPin.length < 4) {
-                        _updatePin('0');
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      foregroundColor: getFontColor(),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
-                      ),
-                    ),
-                    child: Text(
-                      '0',
-                      style: TextStyle(fontSize: 30),
-                    ),
-                  );
-                } else {
-                  int number = index + 1;
-                  if (number == 10) number = 0;
-                  return ElevatedButton(
-                    onPressed: () async {
-                      if (newPin.length < 4) {
-                        _updatePin(number.toString());
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      foregroundColor: getFontColor(),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
-                      ),
-                    ),
-                    child: Text(
-                      number.toString(),
-                      style: TextStyle(fontSize: 30),
-                    ),
-                  );
-                }
-              }),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            ElevatedButton(
-                onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RegisterPin()),
-                      )
-                    },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: getFontColor(),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.circle,
+                    color: getPinColor(newPin, 1),
+                    size: iconSize,
                   ),
-                ),
-                child: Text("Lupa Password ?"))
-          ],
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.circle,
+                    color: getPinColor(newPin, 2),
+                    size: iconSize,
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.circle,
+                    color: getPinColor(newPin, 3),
+                    size: iconSize,
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.circle,
+                    color: getPinColor(newPin, 4),
+                    size: iconSize,
+                  ),
+                ],
+              ),
+              SizedBox(height: 40),
+              GridView.count(
+                crossAxisCount: 3,
+                crossAxisSpacing: 10.0,
+                mainAxisSpacing: 10.0,
+                childAspectRatio: 1.5,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: List.generate(11, (index) {
+                  if (index == 9) {
+                    return ElevatedButton(
+                      onPressed: _removeLastDigit,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: getFontColor(),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                      ),
+                      child: Icon(Icons.backspace),
+                    );
+                  } else if (index == 10) {
+                    return ElevatedButton(
+                      onPressed: () async {
+                        if (newPin.length < 4) {
+                          _updatePin('0');
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: getFontColor(),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                      ),
+                      child: Text(
+                        '0',
+                        style: TextStyle(fontSize: buttonFontSize),
+                      ),
+                    );
+                  } else {
+                    int number = index + 1;
+                    if (number == 10) number = 0;
+                    return ElevatedButton(
+                      onPressed: () async {
+                        if (newPin.length < 4) {
+                          _updatePin(number.toString());
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: getFontColor(),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                      ),
+                      child: Text(
+                        number.toString(),
+                        style: TextStyle(fontSize: buttonFontSize),
+                      ),
+                    );
+                  }
+                }),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              ElevatedButton(
+                  onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RegisterPin()),
+                        )
+                      },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: getFontColor(),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                  ),
+                  child: Text("Lupa Password ?"))
+            ],
+          ),
         ),
       ),
     );

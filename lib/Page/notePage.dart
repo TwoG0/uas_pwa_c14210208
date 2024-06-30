@@ -27,6 +27,20 @@ class _NotePageState extends State<NotePage> {
     }
   }
 
+  void Save() {
+    final box = Hive.box<Note>('notes');
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    if (widget.note != null) {
+      print("Updating Note");
+      final updatedNote = widget.note!;
+      updatedNote.title = _titleController.text;
+      updatedNote.content = _contentController.text;
+      updatedNote.updatedAt = formattedDate;
+      box.putAt(widget.index!, updatedNote);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +57,30 @@ class _NotePageState extends State<NotePage> {
             color: getFontColor(),
           ),
           onPressed: () {
+            final box = Hive.box<Note>('notes');
+            DateTime now = DateTime.now();
+            String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+            if (_titleController.text.isNotEmpty ||
+                _contentController.text.isNotEmpty) {
+              if (widget.note == null) {
+                print("Adding new Note");
+                final newNote = Note(
+                  title: _titleController.text,
+                  content: _contentController.text,
+                  createdAt: formattedDate,
+                  updatedAt: formattedDate,
+                );
+                box.add(newNote);
+              } else {
+                print("Updating Note");
+                final updatedNote = widget.note!;
+                updatedNote.title = _titleController.text;
+                updatedNote.content = _contentController.text;
+                updatedNote.updatedAt = formattedDate;
+                box.putAt(widget.index!, updatedNote);
+              }
+            }
+
             Navigator.pop(context, true);
           },
         ),
@@ -55,13 +93,14 @@ class _NotePageState extends State<NotePage> {
               //Text field untuk title
               Container(
                 decoration: BoxDecoration(
-                  color: getCardColor(), // Background color for the TextField
+                  color: getCardColor(),
                   borderRadius: BorderRadius.circular(
-                      12.0), // Set the desired border radius
+                      12.0),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: TextField(
+                    onChanged: (value) => Save(),
                     controller: _titleController,
                     style: TextStyle(color: getFontColor()),
                     decoration: InputDecoration(
@@ -78,15 +117,16 @@ class _NotePageState extends State<NotePage> {
               //Text field untuk content
               Container(
                 decoration: BoxDecoration(
-                  color: getCardColor(), // Background color for the TextField
+                  color: getCardColor(),
                   borderRadius: BorderRadius.circular(
-                      12.0), // Set the desired border radius
+                      12.0),
                 ),
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: 300),
+                  constraints: BoxConstraints(minHeight: 500),
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: TextField(
+                      onChanged: (value) => Save(),
                       controller: _contentController,
                       style: TextStyle(color: getFontColor()),
                       decoration: InputDecoration(
@@ -98,32 +138,6 @@ class _NotePageState extends State<NotePage> {
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  final box = Hive.box<Note>('notes');
-                  DateTime now = DateTime.now();
-                  String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-                  if (widget.note == null) {
-                    print("Adding new Note");
-                    final newNote = Note(
-                      title: _titleController.text,
-                      content: _contentController.text,
-                      createdAt: formattedDate,
-                      updatedAt: formattedDate,
-                    );
-                    box.add(newNote);
-                  } else {
-                    print("Updating Note");
-                    final updatedNote = widget.note!;
-                    updatedNote.content = _contentController.text;
-                    updatedNote.updatedAt = formattedDate;
-                    box.putAt(widget.index!, updatedNote);
-                  }
-                  Navigator.pop(context);
-                },
-                child: Text(widget.note == null ? 'Add' : 'Save'),
               ),
             ],
           ),

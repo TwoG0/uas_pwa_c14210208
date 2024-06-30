@@ -76,14 +76,66 @@ class _HomePageState extends State<HomePage> {
                     child: GridTile(
                       child: Column(
                         children: [
-                          Card.filled(
-                            color: getCardColor(),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  13.0), // Set the desired border radius here
-                            ),
-                            child: SampleCard(
-                              note: note!,
+                          GestureDetector(
+                            onLongPress: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => SingleChildScrollView(
+                                  child: AlertDialog(
+                                    backgroundColor: getBackgroundColor(),
+                                    title: Center(
+                                        child: Text(
+                                      '${note.title}',
+                                      style: TextStyle(color: getFontColor()),
+                                    )),
+                                    content: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text('Created: ${note.createdAt}',
+                                            style:
+                                                TextStyle(color: getFontColor())),
+                                        Text('Updated: ${note.updatedAt}',
+                                            style:
+                                                TextStyle(color: getFontColor())),
+                                      ],
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Cancel',
+                                            style:
+                                                TextStyle(color: getFontColor())),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text('Delete',
+                                            style:
+                                                TextStyle(color: getFontColor())),
+                                        onPressed: () {
+                                          // Perform delete operation here
+                                          // Example: Hive.box<Note>('notes').delete(note.key);
+                                          box.deleteAt(index);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Card.filled(
+                              color: getCardColor(),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    13.0), // Set the desired border radius here
+                              ),
+                              child: SampleCard(
+                                note: note!,
+                              ),
                             ),
                           ),
                           Center(
@@ -136,13 +188,14 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: getFloatColor(),
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NotePage()),
           );
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.add, color: getFontColor(),),
       ),
     );
   }

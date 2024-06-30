@@ -19,15 +19,8 @@ class _PinPageState extends State<PinPage> {
 
     if (newPin.length == 4) {
       final enteredPin = _pinController.text;
-
-      if (pinBox.isEmpty) {
-        // Jika pinBox kosong, tambahkan PIN baru
-        pinBox.add(Pin(pin: enteredPin));
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      } else {
+    
+      if(pinBox.isNotEmpty) {
         // Jika pinBox tidak kosong, bandingkan dengan PIN yang tersimpan
         final savedPin = pinBox.getAt(0)!.pin;
 
@@ -82,7 +75,6 @@ class _PinPageState extends State<PinPage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     double iconSize = screenWidth * 0.1;
     double buttonFontSize = screenWidth * 0.08;

@@ -106,7 +106,7 @@ class _NotePageState extends State<NotePage> {
                     decoration: InputDecoration(
                       hintText: 'Enter your title',
                       hintStyle: TextStyle(
-                          color: getHintColor(), fontWeight: FontWeight.w400),
+                          color: Colors.grey.shade200, fontWeight: FontWeight.w400),
                       border: InputBorder.none,
                     ),
                     maxLines: null,
@@ -129,11 +129,6 @@ class _NotePageState extends State<NotePage> {
                       onChanged: (value) => Save(),
                       controller: _contentController,
                       style: TextStyle(color: getFontColor()),
-                      decoration: InputDecoration(
-                        hintStyle: TextStyle(
-                            color: getHintColor(), fontWeight: FontWeight.w400),
-                        border: InputBorder.none,
-                      ),
                       maxLines: null,
                     ),
                   ),

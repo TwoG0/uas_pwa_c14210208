@@ -27,14 +27,6 @@ Color getCardColor(){
     }
 }
 
-Color getHintColor(){
-  if (isLightMode) {
-    return Colors.grey.shade500;
-  }else{
-    return Color.fromARGB(255, 149, 149, 149);
-  }
-}
-
 Color getFloatColor(){
   if (isLightMode) {
     return Colors.blue.shade200;

@@ -12,16 +12,6 @@ class RegisterPin extends StatefulWidget {
 class _RegisterPinState extends State<RegisterPin> {
   final TextEditingController _pinController = TextEditingController();
   List<String> newPin = [];
-  bool isFirstOpen = true;
-
-  Future<void> _checkFirstOpen() async {
-    final pinBox = await Hive.openBox<Pin>('pin');
-    if (pinBox != null) {
-      setState(() {
-        isFirstOpen = false;
-      });
-    }
-  }
 
   Future<void> _savePin() async {
     final pinBox = await Hive.openBox<Pin>('pin');
@@ -70,11 +60,10 @@ class _RegisterPinState extends State<RegisterPin> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     double iconSize = screenWidth * 0.1;
     double buttonFontSize = screenWidth * 0.08;
-    _checkFirstOpen();
+
     return Scaffold(
       backgroundColor: getBackgroundColor(),
       appBar: AppBar(
@@ -82,17 +71,6 @@ class _RegisterPinState extends State<RegisterPin> {
           'Register New Pin',
           style: TextStyle(color: getFontColor()),
         ),
-        leading: isFirstOpen
-            ? IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: getFontColor(),
-                ),
-                onPressed: () {
-                  Navigator.pop(context, true);
-                },
-              )
-            : null,
         backgroundColor: getBackgroundColor(),
       ),
       body: SingleChildScrollView(

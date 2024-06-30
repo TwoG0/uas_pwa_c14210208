@@ -13,8 +13,7 @@ late Box<bool> lightModeBox;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // Initialize Hive and adapters
+
   final appDocumentDir = await getApplicationDocumentsDirectory();
   debugPrint("App Document Directory: ${appDocumentDir.path}");
   
@@ -22,22 +21,18 @@ void main() async {
   Hive.registerAdapter(NoteAdapter());
   Hive.registerAdapter(PinAdapter());
 
-  // Open Hive boxes
   try {
     await Hive.openBox<Note>('notes');
     await Hive.openBox<Pin>('pin');
     lightModeBox = await Hive.openBox<bool>('light_mode');
 
-    // Initialize light mode box if empty
     if (lightModeBox.isEmpty) {
       await lightModeBox.add(true);
     }
 
-    // Set initial light mode state
     isLightMode = lightModeBox.get(0) ?? true;
   } catch (e) {
     debugPrint('Error initializing Hive: $e');
-    // Handle initialization error, e.g., show a message or retry
   }
 
   runApp(const MyApp());
@@ -65,7 +60,6 @@ class MyApp extends StatelessWidget {
             }
           } catch (e) {
             debugPrint('Error building home: $e');
-            // Handle error, e.g., return a default screen or show an error message
             return Container();
           }
         },

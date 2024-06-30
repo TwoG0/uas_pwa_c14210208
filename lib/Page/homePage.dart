@@ -55,9 +55,9 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, // Number of columns
-                  crossAxisSpacing: 8.0, // Spacing between columns
-                  mainAxisSpacing: 10.0, // Spacing between rows
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 10.0,
                   childAspectRatio: 0.46,
                 ),
                 itemCount: box.length,
@@ -116,8 +116,6 @@ class _HomePageState extends State<HomePage> {
                                             style:
                                                 TextStyle(color: getFontColor())),
                                         onPressed: () {
-                                          // Perform delete operation here
-                                          // Example: Hive.box<Note>('notes').delete(note.key);
                                           box.deleteAt(index);
                                           Navigator.of(context).pop();
                                         },
@@ -131,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                               color: getCardColor(),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
-                                    13.0), // Set the desired border radius here
+                                    13.0),
                               ),
                               child: SampleCard(
                                 note: note!,
@@ -158,33 +156,6 @@ class _HomePageState extends State<HomePage> {
                   );
                 }),
           );
-          // return ListView.builder(
-          //   itemCount: box.length,
-          //   itemBuilder: (context, index) {
-          //     final note = box.getAt(index);
-          //     return ListTile(
-          //       title: Text(note!.content),
-          //       subtitle: Text(
-          //         'Created: ${note.createdAt}\nUpdated: ${note.updatedAt}',
-          //       ),
-          //       onTap: () {
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //             builder: (context) =>
-          //                 NotePage(note: note, index: index),
-          //           ),
-          //         );
-          //       },
-          //       trailing: IconButton(
-          //         icon: Icon(Icons.delete),
-          //         onPressed: () {
-          //           box.deleteAt(index);
-          //         },
-          //       ),
-          //     );
-          //   },
-          // );
         },
       ),
       floatingActionButton: FloatingActionButton(

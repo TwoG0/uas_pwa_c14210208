@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:uas_ambw/Theme/lightMode.dart';
 import 'package:uas_ambw/note.dart';
 
@@ -12,8 +11,8 @@ class SampleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: getCardColor(), // Custom function from lightMode.dart
-        borderRadius: BorderRadius.circular(16.0), // Example border radius
+        color: getCardColor(),
+        borderRadius: BorderRadius.circular(16.0),
       ),
       width: 300,
       height: 200,
@@ -23,7 +22,7 @@ class SampleCard extends StatelessWidget {
           note.content,
           style: TextStyle(
             fontSize: 12,
-            color: getFontColor(), // Custom function from lightMode.dart
+            color: getFontColor(),
           ),
         ),
       ),

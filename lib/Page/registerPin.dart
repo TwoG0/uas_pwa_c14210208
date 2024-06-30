@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uas_ambw/main.dart';
 import 'package:uas_ambw/pin.dart';
-import 'package:uas_ambw/Page/pinPage.dart';
+import 'package:uas_ambw/Theme/lightMode.dart';
 
 class RegisterPin extends StatefulWidget {
   @override
@@ -21,7 +21,7 @@ class _RegisterPinState extends State<RegisterPin> {
       } else {
         pinBox.putAt(0, Pin(pin: _pinController.text));
       }
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MyApp()),
       );
@@ -60,7 +60,14 @@ class _RegisterPinState extends State<RegisterPin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Register New Pin')),
+      backgroundColor: getBackgroundColor(),
+      appBar: AppBar(
+        title: Text(
+          'Register New Pin',
+          style: TextStyle(color: getFontColor()),
+        ),
+        backgroundColor: getBackgroundColor(),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -112,6 +119,14 @@ class _RegisterPinState extends State<RegisterPin> {
                 if (index == 9) {
                   return ElevatedButton(
                     onPressed: _removeLastDigit,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: getFontColor(),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
+                    ),
                     child: Icon(Icons.backspace),
                   );
                 } else if (index == 10) {
@@ -121,7 +136,18 @@ class _RegisterPinState extends State<RegisterPin> {
                         _updatePin('0');
                       }
                     },
-                    child: Text('0'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: getFontColor(),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
+                    ),
+                    child: Text(
+                      '0',
+                      style: TextStyle(fontSize: 30),
+                    ),
                   );
                 } else {
                   int number = index + 1;
@@ -132,7 +158,18 @@ class _RegisterPinState extends State<RegisterPin> {
                         _updatePin(number.toString());
                       }
                     },
-                    child: Text(number.toString()),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: getFontColor(),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
+                    ),
+                    child: Text(
+                      number.toString(),
+                      style: TextStyle(fontSize: 30),
+                    ),
                   );
                 }
               }),

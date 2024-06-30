@@ -7,19 +7,20 @@ class NoteAdapter extends TypeAdapter<Note> {
 
   @override
   Note read(BinaryReader reader) {
-    print("Reading Note");
     return Note(
+      title: reader.readString(),
       content: reader.readString(),
-      createdAt: reader.read() as DateTime,
-      updatedAt: reader.read() as DateTime,
+      createdAt: reader.readString(),
+      updatedAt: reader.readString(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Note obj) {
     print("Writing Note");
+    writer.writeString(obj.title);
     writer.writeString(obj.content);
-    writer.write(obj.createdAt);
-    writer.write(obj.updatedAt);
+    writer.writeString(obj.createdAt);
+    writer.writeString(obj.updatedAt);
   }
 }

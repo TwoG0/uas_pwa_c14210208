@@ -1,10 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uas_ambw/Page/registerPin.dart';
 import 'package:uas_ambw/pin.dart';
 import 'package:uas_ambw/Page/homePage.dart';
+import 'package:uas_ambw/Theme/lightMode.dart';
 
 class PinPage extends StatefulWidget {
   @override
@@ -83,7 +82,14 @@ class _PinPageState extends State<PinPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Enter PIN')),
+      backgroundColor: getBackgroundColor(),
+      appBar: AppBar(
+        title: Text(
+          'Enter PIN',
+          style: TextStyle(color: getFontColor()),
+        ),
+        backgroundColor: getBackgroundColor(),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -135,32 +141,64 @@ class _PinPageState extends State<PinPage> {
                 if (index == 9) {
                   return ElevatedButton(
                     onPressed: _removeLastDigit,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: getFontColor(),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
+                    ),
                     child: Icon(Icons.backspace),
                   );
                 } else if (index == 10) {
                   return ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (newPin.length < 4) {
                         _updatePin('0');
                       }
                     },
-                    child: Text('0'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: getFontColor(),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
+                    ),
+                    child: Text(
+                      '0',
+                      style: TextStyle(fontSize: 30),
+                    ),
                   );
                 } else {
                   int number = index + 1;
                   if (number == 10) number = 0;
                   return ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (newPin.length < 4) {
                         _updatePin(number.toString());
                       }
                     },
-                    child: Text(number.toString()),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: getFontColor(),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
+                    ),
+                    child: Text(
+                      number.toString(),
+                      style: TextStyle(fontSize: 30),
+                    ),
                   );
                 }
               }),
             ),
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
             ElevatedButton(
                 onPressed: () => {
                       Navigator.push(
@@ -168,7 +206,15 @@ class _PinPageState extends State<PinPage> {
                         MaterialPageRoute(builder: (context) => RegisterPin()),
                       )
                     },
-                child: Text("Lupa Password"))
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: getFontColor(),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                ),
+                child: Text("Lupa Password ?"))
           ],
         ),
       ),

@@ -1,14 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:uas_ambw/Page/homePage.dart';
 import 'package:uas_ambw/Page/registerPin.dart';
 import 'package:uas_ambw/Theme/lightMode.dart';
+import 'package:uas_ambw/main.dart';
 
-class SettingsPage extends StatelessWidget {
-  final TextEditingController _pinController = TextEditingController();
+class SettingsPage extends StatefulWidget {
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+Future<void> changeMode() async {}
+
+class _SettingsPageState extends State<SettingsPage> {
+  void updateMode() async {
+    bool currentValue = lightModeBox.get(0)!;
+    bool newValue = !currentValue;
+
+    await lightModeBox.putAt(0, newValue);
+
+    setState(() {
+      isLightMode = newValue;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Settings')),
+      backgroundColor: getBackgroundColor(),
+      appBar: AppBar(
+        title: Text(
+          'Settings',
+          style: TextStyle(color: getFontColor()),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: getFontColor(),),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
+        ),
+        backgroundColor: getBackgroundColor(),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -24,6 +55,7 @@ class SettingsPage extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.lock_open_outlined,
+                    color: getFontColor(),
                   ),
                   SizedBox(width: 30.0),
                   Text(
@@ -36,7 +68,30 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            GestureDetector(
+              onTap: updateMode,
+              child: Row(
+                children: [
+                  Icon(
+                    isLightMode ? Icons.light_mode : Icons.dark_mode,
+                    color: getFontColor(),
+                  ),
+                  SizedBox(width: 30.0),
+                  Text(
+                    isLightMode ? 'Light Mode' : 'Dark Mode',
+                    style: TextStyle(
+                      color: getFontColor(),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 17,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

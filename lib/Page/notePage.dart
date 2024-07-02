@@ -129,6 +129,9 @@ class _NotePageState extends State<NotePage> {
                       onChanged: (value) => Save(),
                       controller: _contentController,
                       style: TextStyle(color: getFontColor()),
+                      decoration: InputDecoration(
+                        border: InputBorder.none
+                      ),
                       maxLines: null,
                     ),
                   ),
